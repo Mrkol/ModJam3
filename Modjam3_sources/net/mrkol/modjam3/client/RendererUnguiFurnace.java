@@ -74,7 +74,7 @@ public class RendererUnguiFurnace extends TileEntitySpecialRenderer implements I
 				
 				GL11.glRotatef(180f, 1, 0, 0);
 				
-				model.render();
+				//model.render();
 
 				if(tile.fuel != null)
 				{
