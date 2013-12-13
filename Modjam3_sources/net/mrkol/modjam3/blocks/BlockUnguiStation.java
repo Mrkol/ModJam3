@@ -2,7 +2,11 @@ package net.mrkol.modjam3.blocks;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -19,6 +23,20 @@ public class BlockUnguiStation extends BlockContainer
 	{
 		return null;
 	}
+
+	 public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase elb, ItemStack is)
+	 {
+		 TileEntity te = world.getBlockTileEntity(x, y, z);
+		 
+		 if(te instanceof TileUnguiFurnace)
+		 {
+			 TileUnguiFurnace tuf = (TileUnguiFurnace)te;
+			 int i = MathHelper.floor_double(elb.rotationYaw * 4.0F / 360.0F + 0.5D) & 0x3;
+			tuf.rotation = (byte)i;
+		 }
+		 
+	}
+	 
 	
 	@Override
 	public TileEntity createTileEntity(World world, int metadata)
@@ -37,10 +55,15 @@ public class BlockUnguiStation extends BlockContainer
 		return false;
 	}
 	
+	@Override
 	public boolean shouldSideBeRendered(IBlockAccess iblockaccess, int i, int j, int k, int l)
 	{
 		return false;
 	}
 	
-	
+	@Override
+	public void registerIcons(IconRegister ir)
+	{
+		this.blockIcon = ir.registerIcon("furnace_side");
+	}
 }

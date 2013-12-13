@@ -6,7 +6,9 @@ import net.minecraft.tileentity.TileEntity;
 
 public class TileUnguiFurnace extends TileEntity
 {
-	public ItemStack fuel = new ItemStack(Item.coal);
+	public ItemStack fuel = new ItemStack(Item.stick);
+	public byte rotation = 0;
+	
 	
 	public TileUnguiFurnace()
 	{
