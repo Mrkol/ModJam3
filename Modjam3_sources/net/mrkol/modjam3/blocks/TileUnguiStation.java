@@ -2,10 +2,12 @@ package net.mrkol.modjam3.blocks;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
@@ -15,7 +17,6 @@ import net.mrkol.modjam3.raytracing.*;
 
 public class TileUnguiStation extends TileEntity
 {
-	public List<Cuboid6f> cuboids = new ArrayList<Cuboid6f>();
 	
 	public boolean onActivated(World w, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
 	{
@@ -29,5 +30,10 @@ public class TileUnguiStation extends TileEntity
 		MovingObjectPosition mop = b.collisionRayTrace(w, x, y, z, hvec, evec);
 		
 		return false;
+	}
+	
+	public List<Cuboid6f> getCuboids()
+	{
+		return null;
 	}
 }

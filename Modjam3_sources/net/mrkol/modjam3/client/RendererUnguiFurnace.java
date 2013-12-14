@@ -55,7 +55,6 @@ public class RendererUnguiFurnace extends TileEntitySpecialRenderer implements I
 			
 			
 			
-			
 				bindTexture(new ResourceLocation("ungui:textures/UnguiFurnace.png"));
 				GL11.glTranslated(x, y, z);
 				/*GL11.glPushMatrix();
@@ -95,7 +94,7 @@ public class RendererUnguiFurnace extends TileEntitySpecialRenderer implements I
 				
 				GL11.glRotatef(180f, 1, 0, 0);
 				
-				//model.render();
+				model.render();
 
 				if(tile.fuel != null)
 				{

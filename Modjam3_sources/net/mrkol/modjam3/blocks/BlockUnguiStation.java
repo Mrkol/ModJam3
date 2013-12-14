@@ -1,18 +1,23 @@
 package net.mrkol.modjam3.blocks;
 
-import scala.Console;
+import java.util.List;
+import java.util.logging.ConsoleHandler;
+
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.mrkol.modjam3.raytracing.Cuboid6f;
 import net.mrkol.modjam3.raytracing.Raytracer;
 
 public class BlockUnguiStation extends BlockContainer
@@ -21,6 +26,7 @@ public class BlockUnguiStation extends BlockContainer
 	public BlockUnguiStation(int id)
 	{
 		super(id, Material.rock);
+		this.setBlockBounds(0, 0, 0, 1, 1, 1);
 	}
 
 	@Override
@@ -28,16 +34,17 @@ public class BlockUnguiStation extends BlockContainer
 	{
 		return null;
 	}
-
+    
+    @Override
 	 public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase elb, ItemStack is)
 	 {
 		 TileEntity te = world.getBlockTileEntity(x, y, z);
 		 
-		 if(te instanceof TileUnguiFurnace)
+		 if(te != null && te instanceof TileUnguiFurnace)
 		 {
 			 TileUnguiFurnace tuf = (TileUnguiFurnace)te;
 			 int i = MathHelper.floor_double(elb.rotationYaw * 4.0F / 360.0F + 0.5D) & 0x3;
-			tuf.rotation = (byte)i;
+			if(tuf.rotation == -1) tuf.rotation = (byte)i;
 		 }
 		 
 	}
@@ -50,28 +57,32 @@ public class BlockUnguiStation extends BlockContainer
 			{
 				TileUnguiStation tus = (TileUnguiStation)te;
 				
-				Console.out().println(s.xCoord + " | " + s.yCoord + " | " + s.zCoord + " ||||| " + e.xCoord + " | " + e.yCoord + " | " + e.zCoord);
-				
-				//return Raytracer.traceCuboids(s, e, tus.cuboids, x, y, z, tus.getBlockType());
-				MovingObjectPosition mop = Raytracer.traceCuboid_vanilla(tus.cuboids.get(0), s.addVector(-x, -y, -z), e.addVector(-x, -y, -z));
+				return Raytracer.traceCuboids(s, e, tus.getCuboids(), x, y, z, tus.getBlockType());
+				/**MovingObjectPosition mop = Raytracer.traceCuboid_vanilla(tus.cuboids.get(0), s.addVector((double)(-x), (double)(-y), (double)(-z)), e.addVector((double)(-x), (double)(-y), (double)(-z)));
 				if(mop != null)
 				{
 					mop.blockX = x;
 					mop.blockY = y;
 					mop.blockZ = z;
-					mop.hitVec = mop.hitVec.addVector(x, y, z);
+					mop.hitVec = mop.hitVec.addVector((double)x, (double)y, (double)z);
 				}
-				return mop;
+				return mop;**/
 			}
 
 			return null;
+	 }
+	 
+	 @Override
+	 public AxisAlignedBB getSelectedBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
+	 {
+		 return AxisAlignedBB.getAABBPool().getAABB((double)par2, (double)par3, (double)par4, (double)par2 + 1, (double)par3 + 1, (double)par4 + 1);
 	 }
 	 
 	 
 	 @Override
 	public boolean onBlockActivated(World w, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
 	{
-		if(w.isRemote) return true;
+		if(w.isRemote) return false;
 		
 		TileEntity te = w.getBlockTileEntity(x, y, z);
 		if(te instanceof TileUnguiStation)
