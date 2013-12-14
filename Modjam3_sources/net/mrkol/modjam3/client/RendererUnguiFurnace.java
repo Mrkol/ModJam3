@@ -1,6 +1,7 @@
 package net.mrkol.modjam3.client;
 
 import org.lwjgl.opengl.GL11;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -11,6 +12,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
 import net.mrkol.modjam3.blocks.TileUnguiFurnace;
+import net.mrkol.modjam3.raytracing.Raytracer;
 
 public class RendererUnguiFurnace extends TileEntitySpecialRenderer implements IItemRenderer
 {
@@ -50,8 +52,27 @@ public class RendererUnguiFurnace extends TileEntitySpecialRenderer implements I
 		TileUnguiFurnace tile = (TileUnguiFurnace) te;
 		GL11.glPushMatrix();
 		{
+			
+			
+			
+			
 				bindTexture(new ResourceLocation("ungui:textures/UnguiFurnace.png"));
 				GL11.glTranslated(x, y, z);
+				/*GL11.glPushMatrix();
+				{
+					Tessellator t = Tessellator.instance;
+					t.startDrawingQuads();
+					t.addVertex(Raytracer.m_cuboid.X                          , Raytracer.m_cuboid.Y + Raytracer.m_cuboid.W, Raytracer.m_cuboid.Z);
+					t.addVertex(Raytracer.m_cuboid.X + Raytracer.m_cuboid.H , Raytracer.m_cuboid.Y + Raytracer.m_cuboid.W, Raytracer.m_cuboid.Z);
+					t.addVertex(Raytracer.m_cuboid.X + Raytracer.m_cuboid.H , Raytracer.m_cuboid.Y                         , Raytracer.m_cuboid.Z);
+					t.addVertex(Raytracer.m_cuboid.X                          , Raytracer.m_cuboid.Y                         , Raytracer.m_cuboid.Z);
+					t.addVertex(Raytracer.m_cuboid.X                          , Raytracer.m_cuboid.Y                          , Raytracer.m_cuboid.Z + Raytracer.m_cuboid.D);
+					t.addVertex(Raytracer.m_cuboid.X + Raytracer.m_cuboid.H , Raytracer.m_cuboid.Y                          , Raytracer.m_cuboid.Z + Raytracer.m_cuboid.D);
+					t.addVertex(Raytracer.m_cuboid.X + Raytracer.m_cuboid.H, Raytracer.m_cuboid.Y + Raytracer.m_cuboid.W, Raytracer.m_cuboid.Z + Raytracer.m_cuboid.D);
+					t.addVertex(Raytracer.m_cuboid.X                          , Raytracer.m_cuboid.Y + Raytracer.m_cuboid.W, Raytracer.m_cuboid.Z + Raytracer.m_cuboid.D);
+					t.draw();
+				}
+				GL11.glPopMatrix();*/
 				GL11.glTranslatef(0.5f, 1, 0.5f);
 				switch(tile.rotation)
 				{

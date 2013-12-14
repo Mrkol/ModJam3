@@ -16,8 +16,8 @@ public class TileUnguiFurnace extends TileUnguiStation
 	public TileUnguiFurnace()
 	{
 		float factor = 1f/16f;
-		//this.cuboids.add(new Cuboid6f(0, 0, 0, factor*8, factor*8, factor*8));
-		this.cuboids.add(new Cuboid6f(8,0, 8, factor*8, factor*8, factor*8));
+		this.cuboids.add(new Cuboid6f(factor*8, factor*8, factor*8, factor*4, factor*8, factor*8));
+		this.cuboids.add(new Cuboid6f(0,0, 0, factor*16, factor*8, factor*8));
 	}
 	
 	@Override

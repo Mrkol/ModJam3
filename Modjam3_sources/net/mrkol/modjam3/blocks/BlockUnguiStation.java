@@ -1,5 +1,6 @@
 package net.mrkol.modjam3.blocks;
 
+import scala.Console;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -45,12 +46,22 @@ public class BlockUnguiStation extends BlockContainer
 	 public MovingObjectPosition collisionRayTrace(World w, int x, int y, int z, Vec3 s, Vec3 e)
 	 {
 			TileEntity te = w.getBlockTileEntity(x, y, z);
-			if(te instanceof TileUnguiStation)
+			if(te != null && te instanceof TileUnguiStation)
 			{
 				TileUnguiStation tus = (TileUnguiStation)te;
 				
+				Console.out().println(s.xCoord + " | " + s.yCoord + " | " + s.zCoord + " ||||| " + e.xCoord + " | " + e.yCoord + " | " + e.zCoord);
 				
-				return Raytracer.traceCuboids(s, e, tus.cuboids, x, y, z, tus.getBlockType());
+				//return Raytracer.traceCuboids(s, e, tus.cuboids, x, y, z, tus.getBlockType());
+				MovingObjectPosition mop = Raytracer.traceCuboid_vanilla(tus.cuboids.get(0), s.addVector(-x, -y, -z), e.addVector(-x, -y, -z));
+				if(mop != null)
+				{
+					mop.blockX = x;
+					mop.blockY = y;
+					mop.blockZ = z;
+					mop.hitVec = mop.hitVec.addVector(x, y, z);
+				}
+				return mop;
 			}
 
 			return null;
