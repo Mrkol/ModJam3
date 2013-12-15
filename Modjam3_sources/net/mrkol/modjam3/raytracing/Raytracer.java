@@ -99,6 +99,7 @@ public class Raytracer
 	
 	public static MovingObjectPosition traceCuboids(Vec3 s, Vec3 e, List<Cuboid6f> l, int x, int y, int z, Block block)
 	{
+		m_cuboid = null;
 		double d = 0;
 		MovingObjectPosition hit = null;
 		for(int i = 0; i < l.size(); i++)
@@ -121,10 +122,10 @@ public class Raytracer
 			hit.blockZ = z;
 		}
 		
-		/*if(block != null)
+		if(block != null && m_cuboid != null)
 		{
 			block.setBlockBounds((float) m_cuboid.min.xCoord, (float) m_cuboid.min.yCoord, (float) m_cuboid.min.zCoord, (float) m_cuboid.max.xCoord, (float) m_cuboid.max.yCoord,  (float) m_cuboid.max.zCoord);
-		}*/
+		}
 		
 		return hit;
 	}

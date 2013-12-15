@@ -26,7 +26,7 @@ public class BlockUnguiStation extends BlockContainer
 	public BlockUnguiStation(int id)
 	{
 		super(id, Material.rock);
-		this.setBlockBounds(0, 0, 0, 1, 1, 1);
+		this.setBlockBounds(0.01f, 0.01f, 0.01f, 0.98f, 0.98f, 0.98f);
 	}
 
 	@Override
@@ -44,7 +44,7 @@ public class BlockUnguiStation extends BlockContainer
 		 {
 			 TileUnguiFurnace tuf = (TileUnguiFurnace)te;
 			 int i = MathHelper.floor_double(elb.rotationYaw * 4.0F / 360.0F + 0.5D) & 0x3;
-			if(tuf.rotation == -1) tuf.rotation = (byte)i;
+			tuf.rotation = (byte)i;
 		 }
 		 
 	}
@@ -82,7 +82,7 @@ public class BlockUnguiStation extends BlockContainer
 	 @Override
 	public boolean onBlockActivated(World w, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
 	{
-		if(w.isRemote) return false;
+		//if(w.isRemote) return false;
 		
 		TileEntity te = w.getBlockTileEntity(x, y, z);
 		if(te instanceof TileUnguiStation)

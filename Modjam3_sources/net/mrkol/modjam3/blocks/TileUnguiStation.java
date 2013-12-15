@@ -2,11 +2,11 @@ package net.mrkol.modjam3.blocks;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
@@ -19,21 +19,41 @@ public class TileUnguiStation extends TileEntity
 {
 	
 	public boolean onActivated(World w, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
-	{
-		Block b = Block.blocksList[w.getBlockId(x, y, z)];
-		if(b == null) return false;
-		double d = (player instanceof EntityPlayerMP) && (player.isSneaking()) ? 1.54D  : 1.62D;
-		Vec3 hvec = Vec3.createVectorHelper(player.posX, player.posY + d, player.posZ);
-		Vec3 lvec = player.getLook(1.0F);
-		double rad = w.isRemote ? FMLClientHandler.instance().getClient().playerController.getBlockReachDistance() : ((EntityPlayerMP)player).theItemInWorldManager.getBlockReachDistance();
-		Vec3 evec = hvec.addVector(lvec.xCoord * rad, lvec.yCoord * rad, lvec.zCoord * rad);
-		MovingObjectPosition mop = b.collisionRayTrace(w, x, y, z, hvec, evec);
-		
-		return false;
+	{		
+		return Raytracer.m_cuboid != null;
 	}
 	
 	public List<Cuboid6f> getCuboids()
 	{
 		return null;
+	}
+	
+	protected  static boolean canStacksMerge(ItemStack is1, ItemStack is2)
+	{
+		if(is1 == null && is2 == null) return false;
+		if(is1 == null && is2 != null) return true;
+		if(is1 != null && is2 == null) return true;
+		if(is1.stackSize >= is1.getItem().getItemStackLimit(is1)) return false;
+		if(is1.getItem() != is2.getItem()) return false;
+		if(is1.getItemDamage() != is2.getItemDamage()) return false;
+		if(is1.stackTagCompound != null && is2.stackTagCompound != null && !is1.stackTagCompound.equals(is2.stackTagCompound)) return false;
+		return true;
+	}
+	
+	protected static ItemStack[] mergeItemStacks(ItemStack is1, ItemStack is2)
+	{
+		if(canStacksMerge(is1, is2))
+		{
+			if(is1 != null && is2 != null)
+			{
+				int i = Math.min(is1.getItem().getItemStackLimit(is1) - is1.stackSize, is2.stackSize);
+				is1.stackSize += i;
+				is2.stackSize -= i;
+				if(is2.stackSize <= 0) is2 = null;
+			}
+			if(is1 == null && is2 != null) return new ItemStack[] {is2, is1};
+		}
+		
+		return new ItemStack[] {is1, is2};
 	}
 }

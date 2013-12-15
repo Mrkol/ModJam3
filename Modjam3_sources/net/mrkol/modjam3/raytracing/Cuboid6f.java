@@ -28,4 +28,19 @@ public class Cuboid6f
 	{
 		this(0, 0, 0, 1, 1, 1);
 	}
+	
+	@Override
+	public boolean equals(Object obj)
+	{
+		if(obj instanceof Cuboid6f)
+		{
+			Cuboid6f c = (Cuboid6f)obj;
+			if(c.min.xCoord == this.min.xCoord && c.min.yCoord == this.min.yCoord && c.min.zCoord == this.min.zCoord && c.max.xCoord == this.max.xCoord && c.max.yCoord == this.max.yCoord && c.max.zCoord == this.max.zCoord)
+			{
+				return true;
+			}
+			
+		}
+		return false;
+	}
 }

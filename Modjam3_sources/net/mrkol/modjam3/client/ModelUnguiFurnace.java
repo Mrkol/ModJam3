@@ -21,6 +21,13 @@ public class ModelUnguiFurnace extends ModelBase
     setTextureOffset("Base.Fuel6", 64, 33);
     setTextureOffset("Base.Fuel7", 12, 32);
     setTextureOffset("Base.Fuel8", 0, 32);
+    setTextureOffset("Base.Cook0", 80, 32);
+    setTextureOffset("Base.Cook1", 34, 33);
+    setTextureOffset("Base.Cook2", 34, 33);
+    setTextureOffset("Base.Cook3", 64, 33);
+    setTextureOffset("Base.Cook4", 64, 33);
+    setTextureOffset("Base.Cook5", -2, 47);
+    setTextureOffset("Base.Cook6", 1, 39);
     
     Base = new ModelRenderer(this, "Base");
     Base.setRotationPoint(0F, 0F, 0F);
@@ -36,11 +43,20 @@ public class ModelUnguiFurnace extends ModelBase
       Base.addBox("Fuel6", 4F, 11F, -8F, 1, 1, 14);
       Base.addBox("Fuel7", -5F, 15F, -8F, 10, 1, 14);
       Base.addBox("Fuel8", -6F, 9F, 6F, 12, 7, 1);
+      Base.addBox("Cook0", -4F, 7F, -8F, 8, 1, 14);
+      Base.addBox("Cook1", 4F, 5F, -8F, 1, 3, 14);
+      Base.addBox("Cook2", -5F, 5F, -8F, 1, 3, 14);
+      Base.addBox("Cook3", -4F, 4F, -8F, 1, 1, 14);
+      Base.addBox("Cook4", 3F, 4F, -8F, 1, 1, 14);
+      Base.addBox("Cook5", -3F, 3F, -8F, 6, 1, 14);
+      Base.addBox("Cook6", -5F, 3F, 6F, 10, 5, 1);
   }
   
   public void render()
   {
 	float factor = 1f/16f;
+    super.render(null, 0, 0, 0, 0, 0, factor);
+    setRotationAngles(0, 0, 0, 0, 0, factor);
     Base.render(factor);
   }
   
@@ -50,4 +66,10 @@ public class ModelUnguiFurnace extends ModelBase
     model.rotateAngleY = y;
     model.rotateAngleZ = z;
   }
+  
+  public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5)
+  {
+    super.setRotationAngles(f, f1, f2, f3, f4, f5, null);
+  }
+
 }
