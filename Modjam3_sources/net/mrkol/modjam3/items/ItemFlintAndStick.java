@@ -1,5 +1,7 @@
 package net.mrkol.modjam3.items;
 
+import java.util.List;
+import org.lwjgl.input.Keyboard;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -20,8 +22,26 @@ public class ItemFlintAndStick extends Item
         this.iconString = "ungui:FlingAndStick";
 	}
 	
+    public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) 
+    {
+    	if(!Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
+    	{
+    		par3List.add("§oPress the §a<SNEAK KEY>§7§o for more info.");
+    	}
+    	else
+    	{
+    		par3List.add("§oYou've managed to create");
+    		par3List.add("§oa cheap spark making device!");
+    		par3List.add("§oWon't last for very long though.");
+    		par3List.add("§oThis also can be used to");
+    		par3List.add("§l§mBURN 5#|7 WITH FIRE");
+    		par3List.add("§oignite things.");
+    	}
+    }
+	
     public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10)
     {
+    	if(par3World.isRemote) return true;
         if (par7 == 0)
         {
             --par5;

@@ -426,7 +426,19 @@ public class RendererUnguiFurnace extends TileEntitySpecialRenderer implements I
 			
 			if(type == ItemRenderType.ENTITY)
 			{
+				GL11.glTranslatef(0, 1f, 0);
+				GL11.glRotatef(90, 0, -1, 0);
+				GL11.glRotatef(180, 0, 0, 1);
 			}
+			
+			if(type == ItemRenderType.EQUIPPED || type == ItemRenderType.EQUIPPED_FIRST_PERSON)
+			{
+				GL11.glTranslatef(0.5f, 1f, 0.5f);
+				GL11.glRotatef(90, 0, -1, 0);
+				GL11.glRotatef(180, 0, 0, 1);
+			}
+			
+			
 			model.render();
 		}
 		GL11.glPopMatrix();

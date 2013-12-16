@@ -74,11 +74,11 @@ public class TileUnguiFurnace extends TileUnguiStation
     	}
     	
     	
-    	
+    	float fuelFactor = 160f;
     	
     	//coal burns for 100 seconds, and generates energy for 8 items, 1 item cooks for 25 seconds
-    	this.heatLevel += (TileEntityFurnace.getItemBurnTime(fueling) / 1600f) / BURN_TIME * 8; 
-    	if(this.heatLevel > 0) this.heatLevel -= this.heatLevel / (SMELT_TIME);
+    	this.heatLevel += (TileEntityFurnace.getItemBurnTime(fueling) / fuelFactor) / BURN_TIME * 8; 
+    	if(this.heatLevel > 0) this.heatLevel -= this.heatLevel / (SMELT_TIME) * (TileEntityFurnace.getItemBurnTime(this.fueling) != 0 ? Math.sqrt(TileEntityFurnace.getItemBurnTime(this.fueling) / fuelFactor) * Math.PI : 1); //case FUCK YOU, that's why.
     	if(this.heatLevel < 0) this.heatLevel = 0;
     	if(this.heatLevel < 1f/1000f) this.heatLevel = 0;
     	if(this.fuelTimer == 0)
@@ -168,8 +168,18 @@ public class TileUnguiFurnace extends TileUnguiStation
 					{
 						int c = 0;
 						if(is.getItem() == Ungui.proxy.itemFlintAndStick) c = 3;
-						if(w.rand.nextInt(c) == 0) this.isBurning = true;
+						if(c == 0 || w.rand.nextInt(c) == 0) this.isBurning = true;
 						is.damageItem(1, player);
+					}
+					
+					if(is.getItem() == Item.bucketWater)
+					{
+						player.inventory.setInventorySlotContents(player.inventory.currentItem, new ItemStack(Item.bucketEmpty, 1, 0));
+						
+						this.heatLevel -=5;
+						this.isBurning = false;
+						this.fueling = null;
+						this.fuelTimer = 0;
 					}
 					
 					if(TileEntityFurnace.isItemFuel(player.inventory.getStackInSlot(player.inventory.currentItem)))
@@ -200,14 +210,6 @@ public class TileUnguiFurnace extends TileUnguiStation
 							this.smeltingOut = null;
 						}
 							
-					}
-					else
-					{
-						if(this.smeltingOut != null)
-						{
-							player.inventory.addItemStackToInventory(this.smeltingOut.copy());
-							this.smeltingOut = null;
-						}
 					}
 				}
 				else
@@ -270,6 +272,7 @@ public class TileUnguiFurnace extends TileUnguiStation
     	this.smeltProgress = par1NBTTagCompound.getFloat("smelting");
     	this.fuelTimer = par1NBTTagCompound.getFloat("fuel");
     	this.heatLevel = par1NBTTagCompound.getFloat("heat");
+    	this.isBurning = par1NBTTagCompound.getBoolean("burning");
     	
         NBTTagCompound nbttc0 = new NBTTagCompound();
         NBTTagCompound nbttc1 = new NBTTagCompound();
@@ -308,6 +311,7 @@ public class TileUnguiFurnace extends TileUnguiStation
     	par1NBTTagCompound.setFloat("smelting", this.smeltProgress);
     	par1NBTTagCompound.setFloat("fuel", this.fuelTimer);
     	par1NBTTagCompound.setFloat("heat", this.heatLevel);
+    	par1NBTTagCompound.setBoolean("burning", this.isBurning);
     	
         
         NBTTagCompound nbttc0 = new NBTTagCompound();

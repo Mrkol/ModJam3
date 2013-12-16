@@ -1,5 +1,7 @@
 package net.mrkol.modjam3.items;
 
+import java.util.List;
+import org.lwjgl.input.Keyboard;
 import cpw.mods.fml.common.modloader.ModLoaderHelper;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,9 +17,20 @@ public class ItemDebug extends Item
 	public ItemDebug(int par1) 
 	{
 		super(par1);
-		this.setCreativeTab(CreativeTabs.tabCombat);
-		this.setTextureName("minecraft:textures/items:diamond");
+		this.setTextureName("minecraft:fishing_rod_cast");
 	}
+	
+    public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) 
+    {
+    	if(!Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
+    	{
+    		par3List.add("§oPress the §a<SNEAK KEY>§7§o for more info.");
+    	}
+    	else
+    	{
+    		par3List.add("§oHow did you even manage to get this thing?");
+    	}
+    }
 
     public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer p, World w, int x, int y, int z, int par7, float par8, float par9, float par10)
     {

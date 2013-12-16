@@ -1,0 +1,19 @@
+[
+{
+  "modid": "ungui",
+  "name": "Ungui",
+  "version": "0.0.1.0",
+  "mcversion": "1.6.4",
+  "description": "Declaring a war on GUI screens!\nThis was made as part of MODJAM3.\nIf you are reading this in 2014, then I probably got into top 10.\nOtherwise I would totally be all sad and stop modding for a couple more months :(",
+  "credits": "Made by Mrkol",
+  "logoFile": "/assets/ungui/logo.png",
+  "url": "",
+  "updateUrl": "",
+  "authors": [ "Mrkol" ],
+  "parent": "",
+  "screenshots": [],
+  "dependencies": [
+     "mod_MinecraftForge"
+  ]
+}
+]
