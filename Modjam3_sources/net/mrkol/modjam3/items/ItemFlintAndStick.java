@@ -26,16 +26,16 @@ public class ItemFlintAndStick extends Item
     {
     	if(!Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
     	{
-    		par3List.add("§oPress the §a<SNEAK KEY>§7§o for more info.");
+    		par3List.add("\u00A7oPress the \u00A7a<SNEAK KEY>\u00A77\u00A7o for more info.");
     	}
     	else
     	{
-    		par3List.add("§oYou've managed to create");
-    		par3List.add("§oa cheap spark making device!");
-    		par3List.add("§oWon't last for very long though.");
-    		par3List.add("§oThis also can be used to");
-    		par3List.add("§l§mBURN 5#|7 WITH FIRE");
-    		par3List.add("§oignite things.");
+    		par3List.add("\u00A7oYou've managed to create");
+    		par3List.add("\u00A7oa cheap spark making device!");
+    		par3List.add("\u00A7oWon't last for very long though.");
+    		par3List.add("\u00A7oThis also can be used to");
+    		par3List.add("\u00A7l\u00A7mBURN 5#|7 WITH FIRE");
+    		par3List.add("\u00A7oignite things.");
     	}
     }
 	

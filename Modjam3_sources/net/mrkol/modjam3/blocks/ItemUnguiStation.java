@@ -32,19 +32,19 @@ public class ItemUnguiStation extends ItemBlock
     {
     	if(!Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
     	{
-    		par3List.add("§oPress the §a<SNEAK KEY>§7§o for more info.");
+    		par3List.add("\u00A7oPress the \u00A7a<SNEAK KEY>\u00A77\u00A7o for more info.");
     	}
     	else
     	{
-    		par3List.add("§oYou managed to put some");
-    		par3List.add("§ocobble in a furnace shape using");
-    		par3List.add("§oyour crafting table, and now");
-    		par3List.add("§oyou can use your brand new §r§7§lFURNACE§7§o");
-    		par3List.add("§oto cook things. Fuel goes into the bottom part,");
-    		par3List.add("§ogoods go into the top, and BAM! Your goods are");
-    		par3List.add("§oall cooked. Now, if only you could find a way");
-    		par3List.add("§oignite the fuel... Maybe some §r§7§lflint§7§os? Or rubbing");
-    		par3List.add("§r§7§lstick§7§os? Or booth?");
+    		par3List.add("\u00A7oYou managed to put some");
+    		par3List.add("\u00A7ocobble in a furnace shape using");
+    		par3List.add("\u00A7oyour crafting table, and now");
+    		par3List.add("\u00A7oyou can use your brand new \u00A7r\u00A77\u00A7lFURNACE\u00A77\u00A7o");
+    		par3List.add("\u00A7oto cook things. Fuel goes into the bottom part,");
+    		par3List.add("\u00A7ogoods go into the top, and BAM! Your goods are");
+    		par3List.add("\u00A7oall cooked. Now, if only you could find a way");
+    		par3List.add("\u00A7oignite the fuel... Maybe some \u00A7r\u00A77\u00A7lflint\u00A77\u00A7os? Or rubbing");
+    		par3List.add("\u00A7r\u00A77\u00A7lstick\u00A77\u00A7os? Or booth?");
     	}
     }
     

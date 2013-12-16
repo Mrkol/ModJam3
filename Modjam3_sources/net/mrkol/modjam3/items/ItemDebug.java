@@ -24,11 +24,11 @@ public class ItemDebug extends Item
     {
     	if(!Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
     	{
-    		par3List.add("§oPress the §a<SNEAK KEY>§7§o for more info.");
+    		par3List.add("\u00A7oPress the &a<SNEAK KEY>&7&o for more info.");
     	}
     	else
     	{
-    		par3List.add("§oHow did you even manage to get this thing?");
+    		par3List.add("\u00A7oHow did you even manage to get this thing?");
     	}
     }
 
