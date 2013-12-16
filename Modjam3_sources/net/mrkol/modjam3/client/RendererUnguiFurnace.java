@@ -1,11 +1,14 @@
 package net.mrkol.modjam3.client;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
+import org.lwjgl.opengl.GL13;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -50,11 +53,12 @@ public class RendererUnguiFurnace extends TileEntitySpecialRenderer implements I
 	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float arg4)
 	{
 		TileUnguiFurnace tile = (TileUnguiFurnace) te;
+		
 		GL11.glPushMatrix();
 		{
-			
-			
-			
+				
+				
+				
 				bindTexture(new ResourceLocation("ungui:textures/UnguiFurnace.png"));
 				GL11.glTranslated(x, y, z);
 				/*GL11.glPushMatrix();
@@ -112,7 +116,7 @@ public class RendererUnguiFurnace extends TileEntitySpecialRenderer implements I
 							}
 							else
 							{
-								GL11.glTranslatef(0, 0, 0);
+								GL11.glTranslatef(0, -1f/16f / 4f, 0);
 								GL11.glRotatef(180f, 1, 0, 0);
 							}
 							
@@ -181,9 +185,37 @@ public class RendererUnguiFurnace extends TileEntitySpecialRenderer implements I
 					}
 					
 					
+					if(tile.fueling != null)
+					{
+						GL11.glPushMatrix();
+						{
+							GL11.glTranslatef(0, 2f/16f * (1 - (tile.fuelTimer / tile.BURN_TIME)), 0);
+							GL11.glScalef(1, tile.fuelTimer / tile.BURN_TIME, 1);
+							
+							
+							boolean isblock = (tile.fueling.getItem() instanceof ItemBlock);
+							if(!isblock)
+							{
+								GL11.glTranslatef(0, 0.1f, 0);
+								GL11.glRotatef(90f, 1, 0, 0);
+							}
+							else
+							{
+								GL11.glTranslatef(0, -1f/16f/4f, 0);
+								GL11.glRotatef(180f, 1, 0, 0);
+							}
+							
+							EntityItem ie = new EntityItem(null, 0, 0, 0, tile.fueling);
+							ie.hoverStart = 0;
+							float fp = (float)tile.fueling.stackSize / (float)tile.fueling.getItem().getItemStackLimit(tile.fueling) * 100f;
+							
+							GL11.glScalef(1f + 1f/10000f, 1f + 1f/10000f, 1f + 1f/10000f);
+							this.itemRenderer.doRender(ie, 0, 0, 0, 0, 0);
+						}
+						GL11.glPopMatrix();
+					}
 					
-					
-					
+					//========================================================================================
 					
 					
 					
@@ -271,8 +303,104 @@ public class RendererUnguiFurnace extends TileEntitySpecialRenderer implements I
 					}
 					
 					
+					
+					//=====================================================================================
+					
+					
+					
+
+					if(tile.smeltingOut != null)
+					{
+						GL11.glPushMatrix();
+						{
+							GL11.glTranslatef(0, -8f/16f, 0);
+							
+							boolean isblock = (tile.smeltingOut.getItem() instanceof ItemBlock);
+							if(!isblock)
+							{
+								GL11.glTranslatef(0, 0.1f, 0);
+								GL11.glRotatef(90f, 1, 0, 0);
+							}
+							else
+							{
+								GL11.glTranslatef(0, 0, 0);
+								GL11.glRotatef(180f, 1, 0, 0);
+							}
+							
+							EntityItem ie = new EntityItem(null, 0, 0, 0, tile.smeltingOut);
+							ie.hoverStart = 0;
+							float fp = (float)tile.smeltingOut.stackSize / (float)tile.smeltingOut.getItem().getItemStackLimit(tile.smeltingOut) * 100f;
+							GL11.glPushMatrix();
+							{
+								GL11.glScalef(1f + 1f/10000f, 1f + 1f/10000f, 1f + 1f/10000f);
+								this.itemRenderer.doRender(ie, 0, 0, 0, 0, 0);
+							}
+							GL11.glPopMatrix();
+							int sl =  tile.smeltingOut.getItem().getItemStackLimit(tile.smeltingOut);
+							if(fp >= 25 && sl > 2) // >1/4 of a stack
+							{
+								GL11.glPushMatrix();
+								{
+									if(isblock) 
+									{
+										GL11.glTranslatef(4f/16f, 0, 2f/16f);
+									}
+									else
+									{
+										GL11.glTranslatef(0, -0.1f, 0.01f);
+										GL11.glRotatef(10, 1, 0, 0);
+										GL11.glRotatef(90, 0, 0, 1);
+									}
+									GL11.glScalef(1f + 1f/10000f, 1f + 1f/10000f, 1f + 1f/10000f);
+									this.itemRenderer.doRender(ie, 0, 0, 0, 0, 0);
+								}
+								GL11.glPopMatrix();
+							}
+							if(fp >= 50 && sl > 3) // >2/4 of a stack
+							{
+								GL11.glPushMatrix();
+								{
+									if(isblock) 
+									{
+										GL11.glTranslatef(-4f/16f, 0, 0);
+									}
+									else
+									{
+										GL11.glTranslatef(0.2f, 0, 0.02f);
+										GL11.glRotatef(18, 0, 1, 0);
+										GL11.glRotatef(90, 0, 0, 1);
+									}
+									GL11.glScalef(1f + 1f/10000f, 1f + 1f/10000f, 1f + 1f/10000f);
+									this.itemRenderer.doRender(ie, 0, 0, 0, 0, 0);
+								}
+								GL11.glPopMatrix();
+							}
+							if(fp >= 75 && sl > 4) // >3/4 of a stack
+							{
+								GL11.glPushMatrix();
+								{
+									if(isblock) 
+									{
+										GL11.glTranslatef(0, 0, 4f/16f);
+									}
+									else
+									{
+										GL11.glTranslatef(0, 0.2f, 0.11f);
+										GL11.glRotatef(45, 0, 0, 1);
+										GL11.glRotatef(-38, 1, 0, 0);
+										GL11.glRotatef(90, 0, 0, 1);
+									}
+									GL11.glScalef(1f + 1f/10000f, 1f + 1f/10000f, 1f + 1f/10000f);
+									this.itemRenderer.doRender(ie, 0, 0, 0, 0, 0);
+								}
+								GL11.glPopMatrix();
+							}
+						}
+						GL11.glPopMatrix();
+					}
+					
 				}
-				GL11.glPopMatrix();
+				GL11.glPopMatrix();				
 		}
 		GL11.glPopMatrix();
 	}

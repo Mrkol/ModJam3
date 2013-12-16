@@ -124,7 +124,7 @@ public class Raytracer
 		
 		if(block != null && m_cuboid != null)
 		{
-			block.setBlockBounds((float) m_cuboid.min.xCoord, (float) m_cuboid.min.yCoord, (float) m_cuboid.min.zCoord, (float) m_cuboid.max.xCoord, (float) m_cuboid.max.yCoord,  (float) m_cuboid.max.zCoord);
+			//block.setBlockBounds((float) m_cuboid.min.xCoord, (float) m_cuboid.min.yCoord, (float) m_cuboid.min.zCoord, (float) m_cuboid.max.xCoord, (float) m_cuboid.max.yCoord,  (float) m_cuboid.max.zCoord);
 		}
 		
 		return hit;
