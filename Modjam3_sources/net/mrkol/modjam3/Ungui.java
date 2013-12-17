@@ -37,7 +37,7 @@ public class Ungui
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent fmlpie) //FML   PIE!
 	{
-		this.conifg = new Configuration(new File("ungui.conf"));
+		this.conifg = new Configuration(new File("config/ungui.cfg"));
 	}
 	
 	
