@@ -133,24 +133,12 @@ public class TileUnguiFurnace extends TileUnguiStation
 			this.smeltProgress = 0;
 		}
     }
-    
-	public boolean onActivated(World w, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
+
+	public boolean onCuboidActivated(int cuboidID, EntityPlayer player)
 	{
-		boolean b = super.onActivated(w, x, y, z, player, side, hitX, hitY, hitZ);
-		
-		int cid = -1;
-		
-		for(int i = 0; i < this.getCuboids().size(); i++)
-		{
-			if(this.getCuboids().get(i).equals(Raytracer.m_cuboid)) 
-			{
-				cid = i;
-				break;
-			}
-		}
-		
+		boolean b = true;
 		ItemStack is = player.inventory.getCurrentItem();
-		switch(cid)
+		switch(cuboidID)
 		{
 			case 1:
 				
@@ -168,7 +156,7 @@ public class TileUnguiFurnace extends TileUnguiStation
 					{
 						int c = 0;
 						if(is.getItem() == Ungui.proxy.itemFlintAndStick) c = 3;
-						if(c == 0 || w.rand.nextInt(c) == 0) this.isBurning = true;
+						if(c == 0 || worldObj.rand.nextInt(c) == 0) this.isBurning = true;
 						is.damageItem(1, player);
 					}
 					

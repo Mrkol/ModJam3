@@ -15,6 +15,5 @@ public class ProxyClientUngui extends ProxyCommonUngui
 		RendererUnguiFurnace ruf = new RendererUnguiFurnace();
 		ClientRegistry.bindTileEntitySpecialRenderer(TileUnguiFurnace.class, ruf);
 		MinecraftForgeClient.registerItemRenderer(Ungui.proxy.blockUnguiStation.blockID, ruf);
-		
 	}
 }

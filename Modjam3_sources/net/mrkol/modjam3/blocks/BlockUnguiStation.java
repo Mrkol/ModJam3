@@ -39,10 +39,14 @@ public class BlockUnguiStation extends BlockContainer
     public void breakBlock(World par1World, int par2, int par3, int par4, int par5, int par6)
     {
 		if(par1World.isRemote) return; 
-		TileUnguiFurnace tile = (TileUnguiFurnace)par1World.getBlockTileEntity(par2, par3, par4);
+		TileEntity t = par1World.getBlockTileEntity(par2, par3, par4);
 
-        if (tile != null)
+        if (t != null && t instanceof TileUnguiFurnace)
         {
+        	TileUnguiFurnace tile = (TileUnguiFurnace)par1World.getBlockTileEntity(par2, par3, par4);
+		
+		
+		
         	ItemStack itemstack = null;
         	for(int i = 0; i < 3; i++)
         	{

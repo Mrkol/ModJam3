@@ -24,7 +24,7 @@ public class ItemDebug extends Item
     {
     	if(!Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
     	{
-    		par3List.add("\u00A7oPress the &a<SNEAK KEY>&7&o for more info.");
+    		par3List.add("\u00A7oPress the \u00A7a<SNEAK KEY>\u00A77\u00A7o for more info.");
     	}
     	else
     	{

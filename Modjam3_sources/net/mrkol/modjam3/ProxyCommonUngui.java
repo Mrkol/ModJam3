@@ -23,20 +23,24 @@ public class ProxyCommonUngui
 	
 	public void initServer()
 	{
-		blockUnguiStation = new BlockUnguiStation(Ungui.instance.conifg.getBlock("ungui_station", 3000).getInt());
+		Block.blocksList[Block.furnaceIdle.blockID] = null;
+		Item.itemsList[Block.furnaceIdle.blockID] = null;
+		
+		
+		//blockUnguiStation = new BlockUnguiStation(Ungui.instance.conifg.getBlock("ungui_station", 3000).getInt());
+		blockUnguiStation = new BlockUnguiStation(Block.furnaceIdle.blockID);
 		itemFlintAndStick = new ItemFlintAndStick(Ungui.instance.conifg.getItem("flint_and_stick", 3001).getInt());
 		itemDebug = new ItemDebug(Ungui.instance.conifg.getItem("debug_tool", 3002).getInt());
 		
-		
-		
-		
 		if(Ungui.instance.conifg.hasChanged()) Ungui.instance.conifg.save();
+
 		
 		blockUnguiStation.setUnlocalizedName("unguiStation");
 		GameRegistry.registerBlock(blockUnguiStation, ItemUnguiStation.class,  "unguiStation");
 
 		itemDebug.setUnlocalizedName("itemDebug");
 		GameRegistry.registerItem(itemDebug, "itemDebug", "ungui");
+		
 		itemFlintAndStick.setUnlocalizedName("flintAndStick");
 		GameRegistry.registerItem(itemFlintAndStick, "flintAndStick", "ungui");
 

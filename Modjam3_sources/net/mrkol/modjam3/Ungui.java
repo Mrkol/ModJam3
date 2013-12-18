@@ -2,9 +2,12 @@ package net.mrkol.modjam3;
 
 import java.io.File;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.Iterator;
 import java.util.List;
 import net.minecraft.block.Block;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
@@ -51,17 +54,6 @@ public class Ungui
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent fmlpie) // FML-pie!
 	{
-		List l = CraftingManager.getInstance().getRecipeList();
 		
-		Iterator<IRecipe> iterator = CraftingManager.getInstance().getRecipeList().iterator();
-		while (iterator.hasNext())
-		{
-		        IRecipe recipe = iterator.next();
-		        if (recipe == null) continue;
-		        ItemStack output = recipe.getRecipeOutput();
-		        if (output != null && output.itemID == Block.furnaceIdle.blockID)  iterator.remove();
-		}
-			
-		GameRegistry.addRecipe(new ItemStack(Ungui.proxy.blockUnguiStation.blockID, 1, 0), new Object[] {"###", "# #", "###", '#', Block.cobblestone});
 	}
 }

@@ -19,8 +19,26 @@ public class TileUnguiStation extends TileEntity
 {
 	
 	public boolean onActivated(World w, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
-	{		
+	{
+		int cid = -1;
+		
+		for(int i = 0; i < this.getCuboids().size(); i++)
+		{
+			if(this.getCuboids().get(i).equals(Raytracer.m_cuboid)) 
+			{
+				cid = i;
+				break;
+			}
+		}
+			
+		if(cid != -1) return this.onCuboidActivated(cid, player);
+		
 		return Raytracer.m_cuboid != null;
+	}
+	
+	public boolean onCuboidActivated(int cuboidID, EntityPlayer player)
+	{
+		return false;
 	}
 	
 	public List<Cuboid6f> getCuboids()
