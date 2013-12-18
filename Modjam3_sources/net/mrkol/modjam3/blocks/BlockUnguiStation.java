@@ -98,7 +98,8 @@ public class BlockUnguiStation extends BlockContainer
 	@Override
 	public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB AABB, List al, Entity e)
 	{
-		this.setBlockBounds(0.01f, 0.01f, 0.01f, 0.98f, 0.98f, 0.98f);
+		//this.setBlockBounds(0.01f, 0.01f, 0.01f, 0.98f, 0.98f, 0.98f);
+		this.setBlockBounds(0, 0, 0, 1, 1, 1);
 		super.addCollisionBoxesToList(world, x, y, z, AABB, al, e);
 	}
     
