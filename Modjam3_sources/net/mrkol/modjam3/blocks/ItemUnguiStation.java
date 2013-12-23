@@ -26,7 +26,14 @@ public class ItemUnguiStation extends ItemBlock
 	public void getSubItems(int i, CreativeTabs ct, List l)
 	{
 		l.add(new ItemStack(this, 1, 0));
+		l.add(new ItemStack(this, 1, 1));
 	}
+	
+	@Override
+    public int getMetadata(int par1)
+    {
+        return par1;
+    }
 
     public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) 
     {
@@ -36,15 +43,24 @@ public class ItemUnguiStation extends ItemBlock
     	}
     	else
     	{
-    		par3List.add("\u00A7oYou managed to put some");
-    		par3List.add("\u00A7ocobble in a furnace shape using");
-    		par3List.add("\u00A7oyour crafting table, and now");
-    		par3List.add("\u00A7oyou can use your brand new \u00A7r\u00A77\u00A7lFURNACE\u00A77\u00A7o");
-    		par3List.add("\u00A7oto cook things. Fuel goes into the bottom part,");
-    		par3List.add("\u00A7ogoods go into the top, and BAM! Your goods are");
-    		par3List.add("\u00A7oall cooked. Now, if only you could find a way");
-    		par3List.add("\u00A7oignite the fuel... Maybe some \u00A7r\u00A77\u00A7lflint\u00A77\u00A7os? Or rubbing");
-    		par3List.add("\u00A7r\u00A77\u00A7lstick\u00A77\u00A7os? Or booth?");
+    		switch(par1ItemStack.getItemDamage())
+    		{
+    			case 0:
+		    		par3List.add("\u00A7oYou managed to put some");
+		    		par3List.add("\u00A7ocobble in a furnace shape using");
+		    		par3List.add("\u00A7oyour crafting table, and now");
+		    		par3List.add("\u00A7oyou can use your brand new \u00A7r\u00A77\u00A7lFURNACE\u00A77\u00A7o");
+		    		par3List.add("\u00A7oto cook things. Fuel goes into the bottom part,");
+		    		par3List.add("\u00A7ogoods go into the top, and BAM! Your goods are");
+		    		par3List.add("\u00A7oall cooked. Now, if only you could find a way");
+		    		par3List.add("\u00A7oignite the fuel... Maybe some \u00A7r\u00A77\u00A7lflint\u00A77\u00A7os? Or rubbing");
+		    		par3List.add("\u00A7r\u00A77\u00A7lstick\u00A77\u00A7os? Or booth?");
+    				break;
+    				
+    			case 1:
+    				
+    				break;
+    		}
     	}
     }
     

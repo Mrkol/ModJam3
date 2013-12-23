@@ -6,6 +6,7 @@ import net.minecraftforge.client.MinecraftForgeClient;
 import net.mrkol.modjam3.ProxyCommonUngui;
 import net.mrkol.modjam3.Ungui;
 import net.mrkol.modjam3.blocks.TileUnguiFurnace;
+import net.mrkol.modjam3.blocks.TileUnguiWorkbench;
 
 public class ProxyClientUngui extends ProxyCommonUngui
 {
@@ -14,6 +15,10 @@ public class ProxyClientUngui extends ProxyCommonUngui
 	{
 		RendererUnguiFurnace ruf = new RendererUnguiFurnace();
 		ClientRegistry.bindTileEntitySpecialRenderer(TileUnguiFurnace.class, ruf);
+		
+		RenderUnguiWorkbench ruw = new RenderUnguiWorkbench();
+		ClientRegistry.bindTileEntitySpecialRenderer(TileUnguiWorkbench.class, ruw);
+		
 		MinecraftForgeClient.registerItemRenderer(Ungui.proxy.blockUnguiStation.blockID, ruf);
 	}
 }

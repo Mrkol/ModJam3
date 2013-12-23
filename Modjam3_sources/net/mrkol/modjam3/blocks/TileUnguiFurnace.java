@@ -6,6 +6,9 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBucket;
+import net.minecraft.item.ItemBucketMilk;
+import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
@@ -17,6 +20,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
+import net.minecraftforge.fluids.ItemFluidContainer;
 import net.mrkol.modjam3.Ungui;
 import net.mrkol.modjam3.raytracing.Cuboid6f;
 import net.mrkol.modjam3.raytracing.Raytracer;
@@ -99,7 +103,7 @@ public class TileUnguiFurnace extends TileUnguiStation
     	{
     		this.fuelTimer--;
     	}
-		if(FurnaceRecipes.smelting().getSmeltingResult(this.smeltingIn) != null && this.heatLevel > 1)
+		if(FurnaceRecipes.smelting().getSmeltingResult(this.smeltingIn) != null && this.heatLevel > 0.1f)
 		{
 	    	this.smeltProgress += heatLevel / SMELT_TIME;
 	    	this.heatLevel -= heatLevel / (SMELT_TIME);
@@ -149,6 +153,10 @@ public class TileUnguiFurnace extends TileUnguiStation
 						player.inventory.addItemStackToInventory(this.fuel.copy());
 						this.fuel = null;
 					}
+					else
+					{
+						b = false;
+					}
 				}
 				else
 				{
@@ -159,10 +167,30 @@ public class TileUnguiFurnace extends TileUnguiStation
 						if(c == 0 || worldObj.rand.nextInt(c) == 0) this.isBurning = true;
 						is.damageItem(1, player);
 					}
-					
-					if(is.getItem() == Item.bucketWater)
+
+					if((is.getItem() instanceof ItemBucket || is.getItem() instanceof ItemBucketMilk) && is.getItem() != Item.bucketLava)
 					{
-						player.inventory.setInventorySlotContents(player.inventory.currentItem, new ItemStack(Item.bucketEmpty, 1, 0));
+						if(!player.capabilities.isCreativeMode) player.inventory.setInventorySlotContents(player.inventory.currentItem, new ItemStack(is.getItem().getContainerItem(), 1, 0));
+						
+						this.heatLevel -=5;
+						this.isBurning = false;
+						this.fueling = null;
+						this.fuelTimer = 0;
+					}
+					
+					if(is.getItem() instanceof ItemPotion)
+					{
+						if(!player.capabilities.isCreativeMode) player.inventory.setInventorySlotContents(player.inventory.currentItem, new ItemStack(Item.glassBottle, 1, 0));
+						
+						this.heatLevel -=5;
+						this.isBurning = false;
+						this.fueling = null;
+						this.fuelTimer = 0;
+					}
+					
+					if(is.getItem() instanceof ItemFluidContainer && ((ItemFluidContainer)is.getItem()).getFluid(is).getFluid().getTemperature() <= 300)
+					{
+						((ItemFluidContainer)is.getItem()).drain(is, 1000, true);
 						
 						this.heatLevel -=5;
 						this.isBurning = false;
@@ -197,7 +225,10 @@ public class TileUnguiFurnace extends TileUnguiStation
 							player.inventory.addItemStackToInventory(this.smeltingOut.copy());
 							this.smeltingOut = null;
 						}
-							
+						else
+						{
+							b = false;
+						}
 					}
 				}
 				else

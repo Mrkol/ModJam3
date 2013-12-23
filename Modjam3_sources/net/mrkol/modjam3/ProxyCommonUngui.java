@@ -10,6 +10,7 @@ import net.minecraft.item.crafting.ShapedRecipes;
 import net.mrkol.modjam3.blocks.BlockUnguiStation;
 import net.mrkol.modjam3.blocks.ItemUnguiStation;
 import net.mrkol.modjam3.blocks.TileUnguiFurnace;
+import net.mrkol.modjam3.blocks.TileUnguiWorkbench;
 import net.mrkol.modjam3.items.ItemDebug;
 import net.mrkol.modjam3.items.ItemFlintAndStick;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -45,6 +46,7 @@ public class ProxyCommonUngui
 		GameRegistry.registerItem(itemFlintAndStick, "flintAndStick", "ungui");
 
 		GameRegistry.registerTileEntity(TileUnguiFurnace.class, "ungui_furnace");
+		GameRegistry.registerTileEntity(TileUnguiWorkbench.class, "ungui_workbench");
 		
 		GameRegistry.addRecipe(new ItemStack(itemFlintAndStick, 1, 0), new Object[] {" #", "% ", '%', Item.flint, '#', Item.stick});
 		

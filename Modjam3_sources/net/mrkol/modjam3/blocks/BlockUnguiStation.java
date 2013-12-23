@@ -1,7 +1,9 @@
 package net.mrkol.modjam3.blocks;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.ConsoleHandler;
+import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -16,6 +18,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
@@ -26,7 +29,8 @@ import net.mrkol.modjam3.raytracing.Raytracer;
 
 public class BlockUnguiStation extends BlockContainer
 {
-
+	private List<Icon> icons = new ArrayList<Icon>();
+	
 	public BlockUnguiStation(int id)
 	{
 		super(id, Material.rock);
@@ -174,6 +178,9 @@ public class BlockUnguiStation extends BlockContainer
 		{
 			case 0:
 				return new TileUnguiFurnace();
+				
+			case 1:
+				return new TileUnguiWorkbench();
 		}
 		return null;
 	}
@@ -193,6 +200,19 @@ public class BlockUnguiStation extends BlockContainer
 	@Override
 	public void registerIcons(IconRegister ir)
 	{
-		this.blockIcon = ir.registerIcon("furnace_side");
+		this.icons.add(ir.registerIcon("furnace_side"));
+		this.icons.add(ir.registerIcon("crafting_table_front"));
 	}
+	
+	@Override
+    public Icon getBlockTexture(IBlockAccess ba, int x, int y, int z, int side)
+    {
+        return this.icons.get(ba.getBlockMetadata(x, y, z));
+    }
+    
+    @Override
+    public Icon getIcon(int side, int meta)
+    {
+        return this.icons.get(meta);
+    }
 }
