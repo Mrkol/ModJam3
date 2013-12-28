@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.mrkol.modjam3.blocks.TileUnguiFurnace;
+import net.mrkol.modjam3.blocks.TileUnguiWorkbench;
 
 public class ItemDebug extends Item 
 {
@@ -49,6 +50,11 @@ public class ItemDebug extends Item
     			p.addChatMessage("fueling: " + tuf.fueling);
     			p.addChatMessage("heat: " + tuf.heatLevel);
     			p.addChatMessage("smelting: " + tuf.smeltProgress);
+    		}
+    		if(te instanceof TileUnguiWorkbench)
+    		{
+    			TileUnguiWorkbench tuw = (TileUnguiWorkbench)te;
+    			p.addChatMessage("ROT: " + tuw.rotation);
     		}
     	}
     	

@@ -3,6 +3,7 @@ package net.mrkol.modjam3.blocks;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.block.Block;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -18,6 +19,7 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.fluids.ItemFluidContainer;
@@ -44,6 +46,8 @@ public class TileUnguiFurnace extends TileUnguiStation
 	
     public void updateEntity()
     {
+    	boolean flag = false;
+    	
     	if(this.heatLevel > 0.1)
     	{
         	float x0 = ((float)this.worldObj.rand.nextInt(7) - 4f) / 16f;
@@ -93,6 +97,7 @@ public class TileUnguiFurnace extends TileUnguiStation
 	    		this.fueling = this.fuel.splitStack(1);
 	    		if(this.fuel.stackSize == 0) this.fuel = null;
 	    		this.fuelTimer = BURN_TIME;
+	    		flag = true;
     		}
     		else
     		{
@@ -103,6 +108,7 @@ public class TileUnguiFurnace extends TileUnguiStation
     	{
     		this.fuelTimer--;
     	}
+    	
 		if(FurnaceRecipes.smelting().getSmeltingResult(this.smeltingIn) != null && this.heatLevel > 0.1f)
 		{
 	    	this.smeltProgress += heatLevel / SMELT_TIME;
@@ -128,6 +134,8 @@ public class TileUnguiFurnace extends TileUnguiStation
 		            {
 		                this.smeltingIn = null;
 		            }
+		            
+		            flag = true;
 	    		}
 	    	}
 		}
@@ -136,8 +144,71 @@ public class TileUnguiFurnace extends TileUnguiStation
 		{
 			this.smeltProgress = 0;
 		}
+		
+		
+		
+
+
+        if (flag)
+        {
+            worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+        }
     }
 
+    
+    @Override
+    public void onBreakBlock()
+    {
+    	ItemStack itemstack = null;
+    	for(int i = 0; i < 3; i++)
+    	{
+    		if(i == 0) itemstack = this.smeltingIn;
+    		if(i == 1) itemstack = this.smeltingOut;
+    		if(i == 2) itemstack = this.fuel;
+    		
+            if (itemstack != null)
+            {
+                float f = worldObj.rand.nextFloat() * 0.8F + 0.1F;
+                float f1 = worldObj.rand.nextFloat() * 0.8F + 0.1F;
+                EntityItem entityitem;
+
+                for (float f2 = worldObj.rand.nextFloat() * 0.8F + 0.1F; itemstack.stackSize > 0; worldObj.spawnEntityInWorld(entityitem))
+                {
+                    int k1 = worldObj.rand.nextInt(21) + 10;
+
+                    if (k1 > itemstack.stackSize)
+                    {
+                        k1 = itemstack.stackSize;
+                    }
+
+                    itemstack.stackSize -= k1;
+                    entityitem = new EntityItem(worldObj, (double)(this.xCoord + f), (double)(this.yCoord + f1), (double)(this.zCoord + f2), new ItemStack(itemstack.itemID, k1, itemstack.getItemDamage()));
+                    float f3 = 0.05F;
+                    entityitem.motionX = (double)((float)worldObj.rand.nextGaussian() * f3);
+                    entityitem.motionY = (double)((float)worldObj.rand.nextGaussian() * f3 + 0.2F);
+                    entityitem.motionZ = (double)((float)worldObj.rand.nextGaussian() * f3);
+
+                    if (itemstack.hasTagCompound())
+                    {
+                        entityitem.getEntityItem().setTagCompound((NBTTagCompound)itemstack.getTagCompound().copy());
+                    }
+                    
+                    worldObj.spawnEntityInWorld(entityitem);
+                }
+            }
+            
+            
+            if(this.heatLevel > 100) worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, Block.lavaMoving.blockID);
+        }
+    }
+    
+    @Override
+    public void onBlockPlaced(EntityLivingBase elb, ItemStack is)
+    {
+		 int i = MathHelper.floor_double(elb.rotationYaw * 4.0F / 360.0F + 0.5D) & 0x3;
+		this.rotation = (byte)i;
+    }
+    
 	public boolean onCuboidActivated(int cuboidID, EntityPlayer player)
 	{
 		boolean b = true;
@@ -157,15 +228,21 @@ public class TileUnguiFurnace extends TileUnguiStation
 					{
 						b = false;
 					}
+					worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 				}
 				else
 				{
 					if(is.getItem() == Item.flintAndSteel || is.getItem() == Ungui.proxy.itemFlintAndStick)
 					{
-						int c = 0;
-						if(is.getItem() == Ungui.proxy.itemFlintAndStick) c = 3;
-						if(c == 0 || worldObj.rand.nextInt(c) == 0) this.isBurning = true;
-						is.damageItem(1, player);
+						if(!worldObj.isRemote)
+						{
+							int c = 0;
+							if(is.getItem() == Ungui.proxy.itemFlintAndStick) c = 3;
+							if(c == 0 || worldObj.rand.nextInt(c) == 0) this.isBurning = true;
+							is.damageItem(1, player);
+							worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+							player.inventory.onInventoryChanged();
+						}
 					}
 
 					if((is.getItem() instanceof ItemBucket || is.getItem() instanceof ItemBucketMilk) && is.getItem() != Item.bucketLava)
@@ -206,6 +283,8 @@ public class TileUnguiFurnace extends TileUnguiStation
 						if(iss[1] != null) player.inventory.setInventorySlotContents(player.inventory.currentItem, iss[1].copy());
 						else player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
 					}
+					
+					worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 				}
 				break;
 				
@@ -230,6 +309,7 @@ public class TileUnguiFurnace extends TileUnguiStation
 							b = false;
 						}
 					}
+					worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 				}
 				else
 				{
@@ -240,6 +320,7 @@ public class TileUnguiFurnace extends TileUnguiStation
 						if(iss[1] != null) player.inventory.setInventorySlotContents(player.inventory.currentItem, iss[1].copy());
 						else player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
 					}
+					worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 				}
 				break;
 				
@@ -281,6 +362,9 @@ public class TileUnguiFurnace extends TileUnguiStation
 				cuboids.add(new Cuboid6f(0, factor * 8,  factor * 3, factor*1, factor*5, factor*10));
 				break;
 		}
+		
+		cuboids.add(new Cuboid6f(1f/16f, 0, 1f/16f, 14f/16f, 1, 14f/16f));
+		
 		return cuboids;
 	}
 	
@@ -376,5 +460,4 @@ public class TileUnguiFurnace extends TileUnguiStation
     {
         readFromNBT(pkt.data);
     }
-
 }

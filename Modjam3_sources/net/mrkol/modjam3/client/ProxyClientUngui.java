@@ -18,7 +18,8 @@ public class ProxyClientUngui extends ProxyCommonUngui
 		
 		RenderUnguiWorkbench ruw = new RenderUnguiWorkbench();
 		ClientRegistry.bindTileEntitySpecialRenderer(TileUnguiWorkbench.class, ruw);
-		
-		MinecraftForgeClient.registerItemRenderer(Ungui.proxy.blockUnguiStation.blockID, ruf);
+
+		MinecraftForgeClient.registerItemRenderer(Ungui.proxy.blockUnguiStationRock.blockID, ruf);
+		MinecraftForgeClient.registerItemRenderer(Ungui.proxy.blockUnguiStationWood.blockID, ruw);
 	}
 }

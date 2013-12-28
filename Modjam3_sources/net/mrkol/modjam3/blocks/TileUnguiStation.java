@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.block.Block;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -73,5 +74,15 @@ public class TileUnguiStation extends TileEntity
 		}
 		
 		return new ItemStack[] {is1, is2};
+	}
+
+	public void onBreakBlock()
+	{
+		
+	}
+
+	public void onBlockPlaced(EntityLivingBase elb, ItemStack is)
+	{
+		
 	}
 }

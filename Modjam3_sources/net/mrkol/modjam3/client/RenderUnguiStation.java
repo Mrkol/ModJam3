@@ -1,6 +1,8 @@
 package net.mrkol.modjam3.client;
 
 import org.lwjgl.opengl.GL11;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -8,8 +10,12 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.IItemRenderer;
+import net.minecraftforge.client.IItemRenderer.ItemRenderType;
+import net.minecraftforge.client.IItemRenderer.ItemRendererHelper;
 
-public class RenderUnguiStation extends TileEntitySpecialRenderer
+public class RenderUnguiStation extends TileEntitySpecialRenderer implements IItemRenderer
 {
 	public RenderItem itemRenderer;
 
@@ -154,4 +160,89 @@ public class RenderUnguiStation extends TileEntitySpecialRenderer
 		GL11.glPopMatrix();
 	}
 
+
+	@Override
+	public boolean handleRenderType(ItemStack is, ItemRenderType arg1)
+	{
+		return true;
+	}
+
+	@Override
+	public void renderItem(ItemRenderType type, ItemStack is, Object... arg2)
+	{
+		switch(is.getItemDamage())
+		{
+			case 0:
+				GL11.glPushMatrix();
+				{
+					if(Block.blocksList[is.getItem().itemID] != null && Block.blocksList[is.getItem().itemID].blockMaterial == Material.rock)
+					{
+						bindTexture(new ResourceLocation("ungui:textures/UnguiFurnace.png"));
+						if(type == ItemRenderType.INVENTORY) 
+						{
+							GL11.glRotatef(180, 0, 0, 1);
+							GL11.glTranslatef(0, -0.5f, 0);
+							GL11.glRotatef(90, 0, 1, 0);
+						}
+						
+						if(type == ItemRenderType.ENTITY)
+						{
+							GL11.glTranslatef(0, 0.5f, 0);
+							GL11.glRotatef(90, 0, -1, 0);
+							GL11.glRotatef(180, 0, 0, 1);
+						}
+						
+						if(type == ItemRenderType.EQUIPPED || type == ItemRenderType.EQUIPPED_FIRST_PERSON)
+						{
+							GL11.glTranslatef(0.5f, 1f, 0.5f);
+							GL11.glRotatef(90, 0, -1, 0);
+							GL11.glRotatef(180, 0, 0, 1);
+						}
+						
+						
+						RendererUnguiFurnace.model.render();
+					}
+					GL11.glPopMatrix();
+				}
+				
+				if(Block.blocksList[is.getItem().itemID] != null && Block.blocksList[is.getItem().itemID].blockMaterial == Material.wood)
+				{
+					GL11.glPushMatrix();
+					{
+						bindTexture(new ResourceLocation("ungui:textures/UnguiWorkbench.png"));
+						if(type == ItemRenderType.INVENTORY) 
+						{
+							GL11.glRotatef(180, 0, 0, 1);
+							GL11.glTranslatef(0, -0.5f, 0);
+							GL11.glRotatef(90, 0, 1, 0);
+						}
+						
+						if(type == ItemRenderType.ENTITY)
+						{
+							GL11.glTranslatef(0, 0.5f, 0);
+							GL11.glRotatef(90, 0, -1, 0);
+							GL11.glRotatef(180, 0, 0, 1);
+						}
+						
+						if(type == ItemRenderType.EQUIPPED || type == ItemRenderType.EQUIPPED_FIRST_PERSON)
+						{
+							GL11.glTranslatef(0.5f, 1f, 0.5f);
+							GL11.glRotatef(90, 0, -1, 0);
+							GL11.glRotatef(180, 0, 0, 1);
+						}
+						
+						
+						RenderUnguiWorkbench.model.render(new float[] {0, 0, 0, 0, 0, 0, 0, 0});
+					}
+					GL11.glPopMatrix();
+				}
+				break;
+		}
+	}
+
+	@Override
+	public boolean shouldUseRenderHelper(ItemRenderType arg0, ItemStack arg1, ItemRendererHelper arg2)
+	{
+		return true;
+	}
 }

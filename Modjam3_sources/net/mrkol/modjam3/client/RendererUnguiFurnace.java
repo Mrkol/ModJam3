@@ -17,9 +17,9 @@ import net.minecraftforge.client.IItemRenderer;
 import net.mrkol.modjam3.blocks.TileUnguiFurnace;
 import net.mrkol.modjam3.raytracing.Raytracer;
 
-public class RendererUnguiFurnace extends RenderUnguiStation implements IItemRenderer
+public class RendererUnguiFurnace extends RenderUnguiStation
 {
-	public ModelUnguiFurnace model = new ModelUnguiFurnace();
+	public static ModelUnguiFurnace model = new ModelUnguiFurnace();
 	
 	@Override
 	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float arg4)
@@ -116,51 +116,6 @@ public class RendererUnguiFurnace extends RenderUnguiStation implements IItemRen
 				GL11.glPopMatrix();				
 		}
 		GL11.glPopMatrix();
-	}
-
-	@Override
-	public boolean handleRenderType(ItemStack is, ItemRenderType arg1)
-	{
-		return is.getItemDamage() == 0;
-	}
-
-	@Override
-	public void renderItem(ItemRenderType type, ItemStack arg1, Object... arg2)
-	{
-		GL11.glPushMatrix();
-		{
-			bindTexture(new ResourceLocation("ungui:textures/UnguiFurnace.png"));
-			if(type == ItemRenderType.INVENTORY) 
-			{
-				GL11.glRotatef(180, 0, 0, 1);
-				GL11.glTranslatef(0, -0.5f, 0);
-				GL11.glRotatef(90, 0, 1, 0);
-			}
-			
-			if(type == ItemRenderType.ENTITY)
-			{
-				GL11.glTranslatef(0, 1f, 0);
-				GL11.glRotatef(90, 0, -1, 0);
-				GL11.glRotatef(180, 0, 0, 1);
-			}
-			
-			if(type == ItemRenderType.EQUIPPED || type == ItemRenderType.EQUIPPED_FIRST_PERSON)
-			{
-				GL11.glTranslatef(0.5f, 1f, 0.5f);
-				GL11.glRotatef(90, 0, -1, 0);
-				GL11.glRotatef(180, 0, 0, 1);
-			}
-			
-			
-			model.render();
-		}
-		GL11.glPopMatrix();
-	}
-
-	@Override
-	public boolean shouldUseRenderHelper(ItemRenderType arg0, ItemStack arg1, ItemRendererHelper arg2)
-	{
-		return true;
 	}
 	
 }

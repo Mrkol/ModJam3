@@ -3,6 +3,7 @@ package net.mrkol.modjam3;
 import java.lang.reflect.Field;
 import java.util.List;
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
@@ -18,7 +19,8 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 
 public class ProxyCommonUngui
 {
-	public Block blockUnguiStation;
+	public Block blockUnguiStationRock;
+	public Block blockUnguiStationWood;
 	public Item itemDebug;
 	public Item itemFlintAndStick;
 	
@@ -26,18 +28,25 @@ public class ProxyCommonUngui
 	{
 		Block.blocksList[Block.furnaceIdle.blockID] = null;
 		Item.itemsList[Block.furnaceIdle.blockID] = null;
+		Block.blocksList[Block.workbench.blockID] = null;
+		Item.itemsList[Block.workbench.blockID] = null;
 		
 		
 		//blockUnguiStation = new BlockUnguiStation(Ungui.instance.conifg.getBlock("ungui_station", 3000).getInt());
-		blockUnguiStation = new BlockUnguiStation(Block.furnaceIdle.blockID);
+		blockUnguiStationRock = new BlockUnguiStation(Block.furnaceIdle.blockID, Material.rock).setHardness(3.5f).setStepSound(Block.soundStoneFootstep);
+		blockUnguiStationWood = new BlockUnguiStation(Block.workbench.blockID, Material.wood).setHardness(2.5F).setStepSound(Block.soundWoodFootstep);
+		
 		itemFlintAndStick = new ItemFlintAndStick(Ungui.instance.conifg.getItem("flint_and_stick", 3001).getInt());
 		itemDebug = new ItemDebug(Ungui.instance.conifg.getItem("debug_tool", 3002).getInt());
 		
 		if(Ungui.instance.conifg.hasChanged()) Ungui.instance.conifg.save();
 
-		
-		blockUnguiStation.setUnlocalizedName("unguiStation");
-		GameRegistry.registerBlock(blockUnguiStation, ItemUnguiStation.class,  "unguiStation");
+
+		blockUnguiStationRock.setUnlocalizedName("unguiStation_rock");
+		blockUnguiStationWood.setUnlocalizedName("unguiStation_wood");
+
+		GameRegistry.registerBlock(blockUnguiStationRock, ItemUnguiStation.ItemUnguiStation_0.class,  "unguiStation_rock");
+		GameRegistry.registerBlock(blockUnguiStationWood, ItemUnguiStation.ItemUnguiStation_1.class,  "unguiStation_wood");
 
 		itemDebug.setUnlocalizedName("itemDebug");
 		GameRegistry.registerItem(itemDebug, "itemDebug", "ungui");
