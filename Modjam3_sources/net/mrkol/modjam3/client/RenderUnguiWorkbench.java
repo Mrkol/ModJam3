@@ -1,6 +1,8 @@
 package net.mrkol.modjam3.client;
 
 import org.lwjgl.opengl.GL11;
+import cpw.mods.fml.client.FMLClientHandler;
+import net.minecraft.client.particle.EntitySmokeFX;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -20,6 +22,10 @@ public class RenderUnguiWorkbench extends RenderUnguiStation
 	{
 		TileUnguiWorkbench tile = (TileUnguiWorkbench) tileentity;
 
+		
+		
+		
+		
 		GL11.glPushMatrix();
 		{
 			bindTexture(new ResourceLocation("ungui:textures/UnguiWorkbench.png"));

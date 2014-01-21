@@ -2,7 +2,9 @@ package net.mrkol.modjam3.blocks;
 
 import java.util.ArrayList;
 import java.util.List;
+import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.block.Block;
+import net.minecraft.client.particle.EntitySmokeFX;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,6 +23,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
+import net.mrkol.modjam3.client.EntityPoisonFX;
 import net.mrkol.modjam3.raytracing.Cuboid6f;
 
 public class TileUnguiWorkbench extends TileUnguiStation
@@ -47,6 +50,7 @@ public class TileUnguiWorkbench extends TileUnguiStation
 
 			if(this.buttons[i] > 0.46f && this.buttons[i] < 0.54f)
 			{
+				
 				boolean b = true;
 				for(int k = 0; k < this.buttons.length; k++)
 				{
